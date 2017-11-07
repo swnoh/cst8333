@@ -1,0 +1,46 @@
+<table class="table table-striped table-condensed" id="table-geo">
+    <thead>
+    <tr>
+        <th>Ref_Date</th>
+        <th>GEO</th>
+        <th>EST</th>
+        <th>Vector</th>
+        <th>Coordinate</th>
+        <th>Value</th>
+    </tr>
+    </thead>
+
+    {%  if dataset %}
+        <tbody class="table_body" id="tablebody">
+
+        {% for data in dataset %}
+            <tr>
+                <td>{{ data.ref_date }}</td>
+                <td>{{ data.geo }}</td>
+                <td >{{ data.est }}</td>
+                <td>{{ data.vector }}</td>
+                <td>{{ data.coordinate }}</td>
+                <td>{{ data.value }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    {% else %}
+        <br><img src="https://www.iconexperience.com/_img/o_collection_png/green_dark_grey/512x512/plain/emoticon_confused.png" width="250"/><br><br>
+        <storng>OOPS!!! This province has no data.</storng>
+{#        <script>#}
+{#            $(document).ready(function(){#}
+{#                        $("map > area").on('click', function (event) {#}
+{#                            event.preventDefault();#}
+{#                            var data_name = $(this).attr('title');#}
+{#                            document.getElementById("empty_province").innerHTML = data_name;#}
+{#                        });#}
+{#                    })#}
+{#        </script>#}
+
+    {%  endif %}
+</table>
+
+
+
+
+

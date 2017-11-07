@@ -4,8 +4,7 @@ import csv
 
 
 def dataloader():
-    # data = csv.reader(open("C:\\Users\\wanno\\PycharmProjects\\untitled\\dataset\\testcsv.csv"), delimiter=',')
-    data = csv.reader(open("C:\\Users\\wanno\\PycharmProjects\\untitled\\dataset\\00010014-eng.csv"), delimiter=',')
+    data = csv.reader(open("C:\\Users\\wanno\\PycharmProjects\\cst8333\\dataset\\00010014-eng.csv"), delimiter=',')
 
     for row in data:
         if row[0] != 'Ref_Date':

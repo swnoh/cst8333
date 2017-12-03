@@ -75,5 +75,5 @@ def index(request):
         'dataset': Dataset.objects.filter(geo=province)
     }
 
-    print("index here!!!   " , province)
+    print("index here!!!   ", province)
     return render(request, 'index.html', context)

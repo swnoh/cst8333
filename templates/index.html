@@ -1,3 +1,9 @@
+<!--
+        File: index.html
+        Created By: Seungwan Noh
+        Modifed On: Dec 3, 2017
+        Description: This is a main html file a user to view.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,12 +68,13 @@
         }
 
         .jumbotron {
-
             padding: 100px 25px;
             font-family: Montserrat, sans-serif;
         }
+
         .container-fluid {
             padding: 60px 50px;
+            font-family: Montserrat, sans-serif;
         }
 
         /* Add a dark background color to the footer */
@@ -279,10 +286,6 @@
         });
     });
 
-    function hi() {
-        console.assert("HI");
-    }
-
     (function($) {
         $.fn.maphilight.defaults = {
             fill: true,
@@ -297,9 +300,10 @@
 </script>
 
 
-
+<!-- Html body starts here -->
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
+<!-- Navigation menu -->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -325,33 +329,20 @@
 <div id="about">
     <div class="jumbotron text-center">
         <h1>About</h1>
-        <p>This is blah blah blah</p>
-    </div>
-
-    <div class="container-fluid">
-        <div class="col-sm-8">
-            <h2>Assignment 03</h2><br>
-            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
+        <h2>Programming Language Research Project</h2>
     </div>
 </div>
 
-
+<!-- Container (Project Section) -->
 <div id="project">
-    <div class="jumbotron text-center">
+    <div style="background:transparent !important" class="jumbotron text-center">
         <h1>Project</h1>
-        <p>We specialize in blablabla</p>
-    </div>
 
-
-
-    <div class="container-fluid text-center">
-        <div class="row content">
-            <div class="col-sm-6">
+        <div class="container-fluid text-center">
+            <div class="row content">
+                <div class="col-sm-6">
                     <br><br><img src="https://i.imgur.com/3GQQWIg.png" alt="Map of Canada" usemap="#province_map" style="display: block; position: relative;" class="img-responsive center-block" />
                     <map name="province_map" id="province_map">
-
                         <area data-name="SK" alt="Saskatchewan" title="Saskatchewan" shape="poly" coords="175,275,134,402,166,412,202,419,211,345,221,287,200,283" />
                         <area data-name="MB" alt="Manitoba" title="Manitoba" shape="poly" coords="222,287,265,293,265,301,264,305,265,308,274,309,278,327,277,329,288,328,292,330,297,332,299,333,268,368,256,379,251,423,250,425,248,425,203,419,212,348" />
                         <area data-name="AB" alt="Alberta" title="Alberta" shape="poly" coords="175,276,134,402,103,390,101,385,101,382,104,376,104,373,102,369,101,366,100,364,100,360,98,357,98,354,96,352,95,349,95,347,93,345,93,341,91,339,91,333,90,331,88,329,88,327,85,324,88,322,87,319,119,253,140,262,158,270" />
@@ -373,84 +364,120 @@
                     </map>
                 </div>
 
-            <h1>Area, production and farm value of potatoes</h1>
-            <p>Area, production and farm value of potatoes</p> <br>
+                <h2>Area, production and farm value of potatoes</h2>
+                <p>Area, production and farm value of potatoes</p>
+                <br>
 
-            <div class="table-responsive">
-                {% include 'ajax_filter_table.html' %}
+                <div class="table-responsive">
+                    {% include 'ajax_filter_table.html' %}
 
-                <script>
-                    $(document).ready(function(){
+                    <script>
+                        $(document).ready(function(){
 
-                        $("map > area").on('click', function (event) {
-                            event.preventDefault();
-                            var data_name = $(this).attr('title');
-                            console.log("data_name:", data_name);
-                            var data = {
-                                'province': data_name,
-                            }
-
-                            $.ajax({
-                                method: "GET",
-                                url: "{% url 'get_item_by_province'  %}",
-                                data: data,
-                                "success": function(response) {
-                                    $("#table-geo").html(response);
+                            // When a specific area on the map is clicked,
+                            $("map > area").on('click', function (event) {
+                                event.preventDefault();
+                                var data_name = $(this).attr('data-name');
+                                console.log("data_name:", data_name);
+                                var data = {
+                                    'province': data_name,
                                 }
+
+                                // A name of selected province on the map is sending to get data back.
+                                $.ajax({
+                                    method: "GET",
+                                    url: "{% url 'get_item_by_province'  %}",
+                                    data: data,
+                                    "success": function(response) {
+                                        $("#table-geo").html(response);
+                                    }
+                                });
                             });
-                        });
-                    })
 
-                </script>
+                            // When a button is clicked,
+                            $("button").click(function(e) {
+                                e.preventDefault();
 
-                <br><p> Publisher - Current Organization Name: Statistics Canada  </p>
-                <p> Licence: <a href="http://open.canada.ca/en/open-government-licence-canada">Open Government Licence - Canada</a></p>
+                                // This triggers to invoke the dataloader function that inserts csv data to the database.
+                                $.ajax({
+                                    type: "GET",
+                                    url: "{% url 'dataloader'  %}",
+                                    data: {
+                                        id: $(this).val(), // < note use of 'this' here
+                                    },
+                                    success: function(result) {
+                                        alert('Reloading csv files into the database is complete!');
+                                    },
+                                    error: function(result) {
+                                        alert('Something went wrong!');
+                                    }
+                                });
+                            });
+
+                        })
+
+                    </script>
+                    <button type="button" class="btn btn-primary" style="float: right">Reload CSV file to the database</button>
+                    <br><br><br><p> Publisher - Current Organization Name: Statistics Canada  </p>
+                    <p> Licence: <a href="http://open.canada.ca/en/open-government-licence-canada">Open Government Licence - Canada</a></p>
+                </div>
+
             </div>
         </div>
     </div>
 
 </div>
 
-<!-- Container (Project Section) -->
+<!-- Container (Task Section) -->
 <div id="task">
-    <div class="jumbotron text-center">
-        <h1>Task</h1>
-        <p>We specialize in blablabla</p>
-    </div>
+    <div class="jumbotron">
+        <h1 align="center">Task</h1>
 
-    <div class="container-fluid bg-grey">
-        <div class="col-sm-8">
-            <h2>Assignment 03</h2><br>
-            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <div class="container-fluid bg-grey">
+            <div class="col-sm-8">
+                <h2>Assignment 03</h2><br>
+                <h3>Tasks</h3>
+                <h4>1. Submit the code for a working basic project prototype, that works on the specified data-set, with unit test code, including source code documentation (programmer comments within the source code files).</h4><br>
+                <h4>2. Write a Technical Report, including cover sheet, that details what parts of your program demonstrate:</h4>
+                <li>Variables: declaration, assignment, operators etc.</li>
+                <li>Memory Management (Stack, Heap, References, Pointers, Allocation, Deallocation etc.)</li>
+                <li>Decision Structures</li>
+                <li>Looping Structures</li>
+                <li>Methods / Functions as well as Classes / Objects / Structs / Modules etc.</li>
+                <li>Exception handling</li>
+                <li>File IO (either text or binary information saved to / read from a file on a hard-disk)</li>
+                <li>Use of API libraries that come with the language as a standard API</li>
+                <li>Unit Testing</li>
+                <li>Also indicate what feature related to project scope has initially been implemented.</li><br>
+                <h4>3. Prepare 2 brief portfolio documents with screen shots of 1) your program and 2) unit tests running</h4>
+                <li>The program portfolio document screen shots should be just of your program, not the IDE</li>
+                <li>The unit testing screen shot should be taken to include the IDE, to show that at least one test has been run successfully.</li><br><br><br>
+            </div>
+
+            <div class="col-sm-8">
+                <h2>Assignment 04</h2><br>
+                <h3>Tasks</h3>
+                <h4>1. Submit the code for a working mid-project prototype, that works on the specified data-set, with unit test code, including source code documentation (programmer comments within the source code).</h4><br>
+                <h4>2. A point form change list that summarizes the features added since Assignment 03</h4><br>
+                <h4>3. Include a list of any items you are still having problems with and might not be able to finish. Also report the actions you have taken / will take to resolve them. (In addition to web-based research – have you contacted your professor, or asked other students learning the same programming language for help?).</h4><br>
+                <h4>4. Write a Technical Report, including cover sheet, that details what parts of your program demonstrate at least three of:</h4>
+                <li>Inheritance (possibly with Polymorphism)</li>
+                <li>Database Connectivity</li>
+                <li>Data Structures (containers), Algorithms (that manipulate containers), and Iterator Objects</li>
+                <li>Generics</li>
+                <li>Multithreading</li>
+                <li>Anything else you think might be interesting, check with your professor to confirm</li>
+                <li>Unit Testing</li>
+                <li>Also document and perform unit testing on one of the items from the list above in your report.</li><br>
+                <h4>5. Prepare 2 brief portfolio documents with screen shots of 1) your program’s new features and 2) unit tests running on a new feature. These should be separate document files.</h4>
+                <li>The program portfolio document screen shots should be just of your program, not the IDE</li>
+                <li>The unit testing screen shot should be taken to include the IDE, to show that at least one test has been run successfully on a new program feature.</li>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="container-fluid bg-grey">
-    <div class="row">
-        <div class="col-sm-8">
-            <h2>Assignment 04</h2><br>
-            <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
-</div>
-
-
-<div class="container-fluid bg-grey">
-    <div class="row">
-        <div class="col-sm-8">
-            <h2>Final Project Release</h2><br>
-            <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-            <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-    </div>
-</div>
-
-
+<!-- Footer -->
 <footer class="text-center">
     <a class="up-arrow" href="#myPage" data-toggle="tooltip" title="TO TOP">
         <span class="glyphicon glyphicon-chevron-up"></span>

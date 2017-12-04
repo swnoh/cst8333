@@ -1,3 +1,9 @@
+<!--
+        File: ajax_filter_table.html
+        Created By: Seungwan Noh
+        Modifed On: Dec 3, 2017
+        Description: This will be loading when ajax request is made.
+-->
 <table class="table table-striped table-condensed" id="table-geo">
     <thead>
     <tr>
@@ -27,20 +33,6 @@
     {% else %}
         <br><img src="https://www.iconexperience.com/_img/o_collection_png/green_dark_grey/512x512/plain/emoticon_confused.png" width="250"/><br><br>
         <storng>OOPS!!! This province has no data.</storng>
-{#        <script>#}
-{#            $(document).ready(function(){#}
-{#                        $("map > area").on('click', function (event) {#}
-{#                            event.preventDefault();#}
-{#                            var data_name = $(this).attr('title');#}
-{#                            document.getElementById("empty_province").innerHTML = data_name;#}
-{#                        });#}
-{#                    })#}
-{#        </script>#}
 
     {%  endif %}
 </table>
-
-
-
-
-
